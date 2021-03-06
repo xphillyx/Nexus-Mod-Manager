@@ -20,6 +20,21 @@
     <WixVariable Id="WixUILicenseRtf" Value="..\NexusClient\data\License.rtf" />
     <UIRef Id="WixUI_InstallDir_Custom" />
 
+    <!-- Set pre-enabled values for additional tasks dialog -->
+    <Property Id="CREATE_DESKTOPSHORTCUT" Value="1" />
+    <Property Id="CREATE_STARTMENUSHORTCUTS" Value="1" />
+    <Property Id="ASSOCIATE_NXMFILES" Value="1" />
+    <Property Id="ASSOCIATE_NXMURLS" Value="1" />
+    <Property Id="ASSOCIATE_FOMODFILES" Value="1" />
+    <Property Id="ASSOCIATE_OMODFILES" Value="1" />
+
+    <!-- Add custom action to launch NMM after installation -->
+    <Property Id="WixShellExecTarget" Value="[#AppExecutable]" />
+    <CustomAction Id="LaunchApplication" BinaryKey="WixCA" DllEntry="WixShellExec" Impersonate="yes" />
+
+    <!-- Add checkbox to launch NMM on completion -->
+    <Property Id="WIXUI_EXITDIALOGOPTIONALCHECKBOXTEXT" Value="Launch application" />
+
     <Feature Id="ProductFeature" Title="Installer" Level="1">
       <ComponentGroupRef Id="ProductComponents" />
       <ComponentGroupRef Id="NmmFiles" />
@@ -267,6 +282,7 @@
       <Publish Dialog="BrowseDlg" Control="OK" Event="SpawnDialog" Value="InvalidDirDlg" Order="4"><![CDATA[NOT WIXUI_DONTVALIDATEPATH AND WIXUI_INSTALLDIR_VALID<>"1"]]></Publish>
 
       <Publish Dialog="ExitDialog" Control="Finish" Event="EndDialog" Value="Return" Order="999">1</Publish>
+      <Publish Dialog="ExitDialog" Control="Finish" Event="DoAction" Value="LaunchApplication">WIXUI_EXITDIALOGOPTIONALCHECKBOX = 1 and NOT Installed</Publish>
 
       <Publish Dialog="WelcomeDlg" Control="Next" Event="NewDialog" Value="LicenseAgreementDlg">NOT Installed</Publish>
       <Publish Dialog="WelcomeDlg" Control="Next" Event="NewDialog" Value="VerifyReadyDlg">Installed AND PATCH</Publish>
@@ -283,7 +299,7 @@
       <Publish Dialog="AdditionalTasksDlg" Control="Back" Event="NewDialog" Value="ReleaseNotesDlg">1</Publish>
       <Publish Dialog="AdditionalTasksDlg" Control="Next" Event="NewDialog" Value="InstallDirDlg">1</Publish>
 
-      <Publish Dialog="InstallDirDlg" Control="Back" Event="NewDialog" Value="ReleaseNotesDlg">1</Publish>
+      <Publish Dialog="InstallDirDlg" Control="Back" Event="NewDialog" Value="AdditionalTasksDlg">1</Publish>
       <Publish Dialog="InstallDirDlg" Control="Next" Event="SetTargetPath" Value="[WIXUI_INSTALLDIR]" Order="1">1</Publish>
       <Publish Dialog="InstallDirDlg" Control="Next" Event="DoAction" Value="WixUIValidatePath" Order="2">NOT WIXUI_DONTVALIDATEPATH</Publish>
       <Publish Dialog="InstallDirDlg" Control="Next" Event="SpawnDialog" Value="InvalidDirDlg" Order="3"><![CDATA[NOT WIXUI_DONTVALIDATEPATH AND WIXUI_INSTALLDIR_VALID<>"1"]]></Publish>

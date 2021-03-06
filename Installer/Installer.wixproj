@@ -9,7 +9,7 @@
     <OutputType>Package</OutputType>
     <OutputName>NexusModManager</OutputName>
     <OutputPath>..\Stage\Installer\</OutputPath>
-    <IntermediateOutputPath>..\Stage\obj\$(Configuration)\</IntermediateOutputPath>
+    <IntermediateOutputPath>..\Stage\obj\$(Configuration)\Installer\</IntermediateOutputPath>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x64' ">
     <SuppressIces>ICE69</SuppressIces>
@@ -64,12 +64,16 @@
       <HintPath>$(WixExtDir)\WixUIExtension.dll</HintPath>
       <Name>WixUIExtension</Name>
     </WixExtension>
+    <WixExtension Include="WixUtilExtension">
+      <HintPath>$(WixExtDir)\WixUtilExtension.dll</HintPath>
+      <Name>WixUtilExtension</Name>
+    </WixExtension>
   </ItemGroup>
   <Target Name="CopyFilesToInstallerTemp">
     <RemoveDir Directories="..\Release\InstallerTemp" />
     <MakeDir Directories="..\Stage\InstallerTemp" />
     <ItemGroup>
-      <SourceFiles Include="..\Stage\Release\**\*.dll*;..\Stage\Release\**\*.txt;..\Stage\Release\**\*.rtf" />
+      <SourceFiles Include="..\Stage\Release\**\*.dll;..\Stage\Release\**\*.config;..\Stage\Release\**\*.txt;..\Stage\Release\**\*.rtf" />
     </ItemGroup>
     <Copy SourceFiles="@(SourceFiles)" DestinationFiles="@(SourceFiles->'..\Stage\InstallerTemp\%(RecursiveDir)%(Filename)%(Extension)')" />
   </Target>
