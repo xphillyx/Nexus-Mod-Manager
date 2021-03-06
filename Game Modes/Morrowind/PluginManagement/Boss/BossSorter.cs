@@ -386,7 +386,7 @@ namespace Nexus.Client.Games.Morrowind.PluginManagement.Boss
 		/// <summary>
 		/// A simple constructor that initializes the object with the given dependencies.
 		/// </summary>
-		/// <param name="p_eifEnvironmentInfo">The application's envrionment info.</param>
+		/// <param name="p_eifEnvironmentInfo">The application's environment info.</param>
 		/// <param name="p_gmdGameMode">The game mode for which plugins are being managed.</param>
 		/// <param name="p_futFileUtility">The file utility class.</param>
 		/// <param name="p_strMasterlistPath">The path to the masterlist file to use.</param>
@@ -396,7 +396,7 @@ namespace Nexus.Client.Games.Morrowind.PluginManagement.Boss
 			GameMode = p_gmdGameMode;
 			FileUtility = p_futFileUtility;
 
-			string strBAPIPath = Path.Combine(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "data"), p_eifEnvironmentInfo.Is64BitProcess ? "boss64.dll" : "boss32.dll");
+			var strBAPIPath = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "data", "boss64.dll");
 
 			m_ptrBossApi = LoadLibrary(strBAPIPath);
 			if (m_ptrBossApi == IntPtr.Zero)

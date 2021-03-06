@@ -98,7 +98,7 @@
                 return false;
             }
 
-            SetCompressorPath(_environmentInfo);
+            SevenZipBase.SetLibraryPath(Path.Combine(_environmentInfo.ProgrammeInfoDirectory, "7z.dll"));
 
 			var deletedDll = CheckModScriptDLL();
 
@@ -361,16 +361,6 @@
 			}
 
 			return true;
-		}
-
-		/// <summary>
-		/// Sets the path to the external compression library.
-		/// </summary>
-		/// <param name="environmentInfo">The application's envrionment info.</param>
-		protected void SetCompressorPath(EnvironmentInfo environmentInfo)
-		{
-			var sevenZipPath = Path.Combine(environmentInfo.ProgrammeInfoDirectory, environmentInfo.Is64BitProcess ? "7z-64bit.dll" : "7z-32bit.dll");
-			SevenZipCompressor.SetLibraryPath(sevenZipPath);
 		}
 
         /// <summary>
